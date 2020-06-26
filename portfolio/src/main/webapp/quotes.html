@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>Eyad Alsilimy</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
   </head>
   <body>
     <div id="content">
       <nav>
         <ul class="nav-links">
           <li>
-              <strong style="font-size:22px;">Home</strong>
+            <a href="index.html">Home</a> 
           </li>
           <li>
             <a href="aboutme.html">About Me</a>
@@ -22,11 +23,11 @@
             <a href="resume.html">Resume</a>
           </li>
           <li>
-            <a href="quotes.html">Quotes</a>
+            <strong style="font-size:22px;">Quotes</strong>
           </li>
         </ul>
       </nav>
-      <h1>Eyad Alsilimy
+      <h1>Quotes
         <a href="https://www.linkedin.com/in/eyadalsilimy/" style="text-decoration:none;">
           <img alt="linkedin" src="images/linkedin.jpg" width="50" height="50">
         </a>
@@ -34,7 +35,9 @@
           <img alt="github" src="images/github.png" width="50" height="50">
         </a> 
       </h1>
-      <img src="images/eyadhome.png" alt="eyadhome" class="center" style="width:660px;">
+      <p>Click below to get a random motto I live by:</p>
+      <button onclick="addRandomQuote()">Click</button>
+      <div id="quote-container"></div>
     </div>
   </body>
 </html>

@@ -8,23 +8,52 @@
   margin-top: 10px;
 }
 
+p {
+    font-size: 18px;
+}
 figure {
   display: inline-block;
   text-align: center;
-  margin: 5px;
 }
 
 h1 {
   text-align: center;
+  font-size: 72px;
 }
 
+* {
+    margin: 3px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 4vh;
+    background-color: rgb(206, 17, 38);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    width: 180%;
+    font-size: 18px;
+    letter-spacing: .5px;
+}
+
+.nav-links a {
+    color: rgb(226, 226, 226);
+    text-decoration: none;
+}
+
+.nav-links li {
+    list-style: none;
+}
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
-}
-
-figure img {
-  /* vertical-align: top;  */
 }
