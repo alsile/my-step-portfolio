@@ -27,17 +27,28 @@
           </li>
         </ul>
       </nav>
+      <br></br>
       <h1>Quotes
         <a href="https://www.linkedin.com/in/eyadalsilimy/" style="text-decoration:none;">
-          <img alt="linkedin" src="images/linkedin.jpg" width="50" height="50">
+          <img alt="linkedin" src="images/newlinkedin.jpg" width="50" height="50">
         </a>
         <a href="https://www.github.com/alsile/">
-          <img alt="github" src="images/github.png" width="50" height="50">
+          <img alt="github" src="images/newgithub.png" width="50" height="50">
         </a> 
       </h1>
-      <p>Click below to get a random motto I live by:</p>
-      <button onclick="addRandomQuote()">Click</button>
-      <div id="quote-container"></div>
+      <br></br>
+      <button style="width:8%;font-size:20px" onclick="prevQuote()">Left</button>
+      <h2 style="display:inline-block;font-size:22px;">
+          Use buttons to cycle through mottos I try to live by
+      </h2>
+      <button style="width:8%;font-size:20px" onclick="nextQuote()">Right</button>
+      <div class="center" style="font-size:22px" id="quote-container">
+          pay forward what you can never pay back
+      </div>
+      <br></br>
+      <button width="10%" font-size="18px" class="center" onclick="toggleDarkMode()">
+          Toggle Dark Mode
+      </button>      
     </div>
   </body>
 </html>

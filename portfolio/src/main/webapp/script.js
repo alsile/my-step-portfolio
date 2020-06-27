@@ -15,19 +15,66 @@
 /**
  * Adds a random quote to the page.
  */
-function addRandomQuote() {
-  const quotes =
-      ['pay forward what you can never pay back',
-      'the longest relationship you will have with anyone is with yourself',
-      'fear being capable of anything, and choosing to do nothing',
-      'stay hydrated',
-      'yerrrrrrrrr',
-      'the most growth comes from the hardest experiences'];
 
-  // Pick a random quote.
-  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+window.onload = _ =>
+  setDarkMode();
 
-  // Add it to the page.
+var curr = 0;
+
+const quotes = [
+  'pay forward what you can never pay back',
+  'the longest relationship you will have with anyone is with yourself',
+  'fear being capable of anything, and choosing to do nothing',
+  'stay hydrated',
+  'yerrrrrrrrr',
+  'the most growth comes from the hardest experiences'
+];
+
+function nextQuote() {
   const quoteContainer = document.getElementById('quote-container');
+  curr++;
+  var use = curr;
+  if (use < 0) {
+    use = (use % quotes.length);
+    if (use != 0) {
+      use += quotes.length;
+    }
+  } else {
+    use = use % quotes.length;
+  }
+  const quote = quotes[use];
   quoteContainer.innerText = quote;
+}
+
+function prevQuote() {
+  const quoteContainer = document.getElementById('quote-container');
+  curr--;
+  var use = curr;
+  if (use < 0) {
+    use = (use % quotes.length);
+    if (use != 0) {
+      use += quotes.length;
+    }
+  } else {
+    use = use % quotes.length;
+  }
+  const quote = quotes[use];
+  quoteContainer.innerText = quote;
+}
+
+function setDarkMode() {
+  if (localStorage.getItem("darkOn") === "true") {
+    document.body.classList.add("dark-mode");
+  } else {
+     document.body.classList.remove("dark-mode");
+  }
+}
+
+function toggleDarkMode() {
+  if (localStorage.getItem("darkOn") === "true") {
+    localStorage.darkOn = "false";
+  } else {
+    localStorage.darkOn = "true";
+  }
+  setDarkMode(localStorage.getItem("darkOn"));
 }
