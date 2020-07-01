@@ -11,7 +11,7 @@
       <nav>
         <ul class="nav-links">
           <li>
-              <strong style="font-size:22px;">Home</strong>
+            <a href="index.html">Home</a> 
           </li>
           <li>
             <a href="aboutme.html">About Me</a>
@@ -23,25 +23,32 @@
             <a href="resume.html">Resume</a>
           </li>
           <li>
-            <a href="quotes.html">Quotes</a>
+            <strong style="font-size:22px;">Quotes</strong>
           </li>
         </ul>
       </nav>
       <br></br>
-      <h1>Eyad Alsilimy
+      <h1>Quotes
         <a href="https://www.linkedin.com/in/eyadalsilimy/" style="text-decoration:none;">
-          <img alt="linkedin" src="images/newlinkedin.png" width="50" height="50">
+          <img alt="linkedin" src="images/newlinkedin.jpg" width="50" height="50">
         </a>
         <a href="https://www.github.com/alsile/">
           <img alt="github" src="images/newgithub.png" width="50" height="50">
         </a> 
       </h1>
       <br></br>
-      <img src="images/eyadhome.png" alt="eyadhome" class="center" style="width:660px;">
+      <button style="width:8%;font-size:20px" onclick="prevQuote()">Left</button>
+      <h2 style="display:inline-block;font-size:22px;">
+          Use buttons to cycle through mottos I try to live by
+      </h2>
+      <button style="width:8%;font-size:20px" onclick="nextQuote()">Right</button>
+      <div class="center" style="font-size:22px" id="quote-container">
+          pay forward what you can never pay back
+      </div>
       <br></br>
       <button width="10%" font-size="18px" class="center" onclick="toggleDarkMode()">
           Toggle Dark Mode
-      </button>
+      </button>      
     </div>
   </body>
 </html>

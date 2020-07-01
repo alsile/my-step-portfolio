@@ -13,16 +13,68 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random quote to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+window.onload = _ =>
+  setDarkMode();
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+var curr = 0;
+
+const quotes = [
+  'pay forward what you can never pay back',
+  'the longest relationship you will have with anyone is with yourself',
+  'fear being capable of anything, and choosing to do nothing',
+  'stay hydrated',
+  'yerrrrrrrrr',
+  'the most growth comes from the hardest experiences'
+];
+
+function nextQuote() {
+  const quoteContainer = document.getElementById('quote-container');
+  curr++;
+  var use = curr;
+  if (use < 0) {
+    use = (use % quotes.length);
+    if (use != 0) {
+      use += quotes.length;
+    }
+  } else {
+    use = use % quotes.length;
+  }
+  const quote = quotes[use];
+  quoteContainer.innerText = quote;
+}
+
+function prevQuote() {
+  const quoteContainer = document.getElementById('quote-container');
+  curr--;
+  var use = curr;
+  if (use < 0) {
+    use = (use % quotes.length);
+    if (use != 0) {
+      use += quotes.length;
+    }
+  } else {
+    use = use % quotes.length;
+  }
+  const quote = quotes[use];
+  quoteContainer.innerText = quote;
+}
+
+function setDarkMode() {
+  if (localStorage.getItem("darkOn") === "true") {
+    document.body.classList.add("dark-mode");
+  } else {
+     document.body.classList.remove("dark-mode");
+  }
+}
+
+function toggleDarkMode() {
+  if (localStorage.getItem("darkOn") === "true") {
+    localStorage.darkOn = "false";
+  } else {
+    localStorage.darkOn = "true";
+  }
+  setDarkMode(localStorage.getItem("darkOn"));
 }
