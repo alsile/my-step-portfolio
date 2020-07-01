@@ -66,7 +66,7 @@ function setDarkMode() {
   if (localStorage.getItem("darkOn") === "true") {
     document.body.classList.add("dark-mode");
   } else {
-     document.body.classList.remove("dark-mode");
+    document.body.classList.remove("dark-mode");
   }
 }
 
@@ -77,4 +77,10 @@ function toggleDarkMode() {
     localStorage.darkOn = "true";
   }
   setDarkMode(localStorage.getItem("darkOn"));
+}
+
+async function pageViews() {
+  const response = await fetch('/data');
+  const quote = await response.text();
+  document.getElementById('page-views').innerText = quote;
 }

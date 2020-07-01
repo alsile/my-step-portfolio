@@ -24,8 +24,8 @@ h1 {
 }
 
 h5 {
-    font-weight: normal;
-    font-size: 20px;
+  font-weight: normal;
+  font-size: 20px;
 }
 
 * {
@@ -63,10 +63,9 @@ nav {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
 }
 
 .dark-mode {
-    background-color: rgb(14, 17, 17);
-    color: rgb(226, 226, 226);
+  background-color: rgb(14, 17, 17);
+  color: rgb(226, 226, 226);
 }
