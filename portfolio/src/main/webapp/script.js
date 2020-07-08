@@ -79,8 +79,9 @@ function toggleDarkMode() {
   setDarkMode(localStorage.getItem("darkOn"));
 }
 
-async function pageViews() {
+async function consoleResponse() {
   const response = await fetch('/data');
-  const quote = await response.text();
-  document.getElementById('page-views').innerText = quote;
+  const textInput = await response.text();
+  
+  document.getElementById('console-output').innerText = textInput;
 }

@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import java.util.ArrayList;
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,13 +26,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  private int pageViews;
+  private String output;
   
+  public DataServlet () {
+   String output = "No Input Received.";
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    pageViews++;
-
     response.setContentType("text/html;");
-    response.getWriter().println("Number of times visited: " + pageViews);
+    response.getWriter().println(output);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    output = new Gson().toJson(request.getParameter("input"));
+
+    response.sendRedirect("/index.html");
   }
 }
