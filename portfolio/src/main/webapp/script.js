@@ -66,7 +66,7 @@ function setDarkMode() {
   if (localStorage.getItem("darkOn") === "true") {
     document.body.classList.add("dark-mode");
   } else {
-     document.body.classList.remove("dark-mode");
+    document.body.classList.remove("dark-mode");
   }
 }
 
@@ -77,4 +77,22 @@ function toggleDarkMode() {
     localStorage.darkOn = "true";
   }
   setDarkMode(localStorage.getItem("darkOn"));
+}
+
+async function consoleResponse() {
+  const response = await fetch('/data');
+  const textInput = await response.json();
+  
+  consoleOutput = document.getElementById('console-output');
+
+  textInput.forEach((line) => {
+    consoleOutput.appendChild(createListElement(line));
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

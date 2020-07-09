@@ -6,12 +6,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload=consoleResponse();setDarkMode()>
     <div id="content">
       <nav>
         <ul class="nav-links">
           <li>
-              <strong style="font-size:22px;">Home</strong>
+            <strong style="font-size:22px;">Home</strong>
           </li>
           <li>
             <a href="aboutme.html">About Me</a>
@@ -39,9 +39,14 @@
       <br></br>
       <img src="images/eyadhome.png" alt="eyadhome" class="center" style="width:660px;">
       <br></br>
-      <button width="10%" font-size="18px" class="center" onclick="toggleDarkMode()">
+      <button class="center" style="width:75%" font-size="18px" onclick="toggleDarkMode()">
           Toggle Dark Mode
       </button>
+      <ul id="console-output"></ul>
+      <form action="/data" method="POST">
+        <p>Leave a comment!</p>
+        <input type="string" name="input"><input type="submit" />
+      </form> 
     </div>
   </body>
 </html>
