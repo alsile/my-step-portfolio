@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload=consoleResponse()>
+  <body onload=consoleResponse();setDarkMode()>
     <div id="content">
       <nav>
         <ul class="nav-links">
@@ -42,11 +42,11 @@
       <button class="center" style="width:75%" font-size="18px" onclick="toggleDarkMode()">
           Toggle Dark Mode
       </button>
+      <ul id="console-output"></ul>
       <form action="/data" method="POST">
-        <p>Enter text below and have it displayed on the page!</p>
-        <input type="string" name="input" value="1 + 1"><input type="submit" />
+        <p>Leave a comment!</p>
+        <input type="string" name="input"><input type="submit" />
       </form> 
-      <div id="console-output"></div>
     </div>
   </body>
 </html>

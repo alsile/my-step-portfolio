@@ -14,7 +14,15 @@
 
 package com.google.sps.servlets;
 
+import java.util.Date;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
+import java.util.List;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -26,21 +34,35 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  private String output;
+  private List<String> output = new ArrayList<>();
   
-  public DataServlet () {
-   String output = "No Input Received.";
-  }
+  private Gson gson = new Gson();
+
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println(output);
+    Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      String fromDatastore = (String) entity.getProperty("title");
+      if (!output.contains(fromDatastore)) {
+        output.add(fromDatastore);
+      }
+    }
+
+    response.setContentType("application/JSON;");
+    response.getWriter().println(gson.toJson(output));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    output = new Gson().toJson(request.getParameter("input"));
+    String comment = request.getParameter("input");
+    Entity add = new Entity("Task");
+    add.setProperty("title", comment);
+    add.setProperty("timestamp", new Date());
+
+    datastore.put(add);
 
     response.sendRedirect("/index.html");
   }

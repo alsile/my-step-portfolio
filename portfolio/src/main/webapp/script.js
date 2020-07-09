@@ -81,7 +81,18 @@ function toggleDarkMode() {
 
 async function consoleResponse() {
   const response = await fetch('/data');
-  const textInput = await response.text();
+  const textInput = await response.json();
   
-  document.getElementById('console-output').innerText = textInput;
+  consoleOutput = document.getElementById('console-output');
+
+  textInput.forEach((line) => {
+    consoleOutput.appendChild(createListElement(line));
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
