@@ -45,8 +45,13 @@
       <ul id="console-output"></ul>
       <form action="/data" method="POST">
         <p>Leave a comment!</p>
-        <input type="string" name="input"><input type="submit" />
-      </form> 
+        <input type="string" name="input"></input>
+        <input type="number" size="1" name="limit" placeholder="5" min="0"></input>
+        <input type="submit"></input>
+      </form>
+      <form action="/delete-data" method="POST">
+        <input type="submit" value="Delete Comments"><input>
+      </form>
     </div>
   </body>
 </html>

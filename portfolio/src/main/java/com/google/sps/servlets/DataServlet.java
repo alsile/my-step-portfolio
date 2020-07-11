@@ -14,6 +14,7 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.Comments;
 import java.util.Date;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -34,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
-  private List<String> output = new ArrayList<>();
-  
+  private Comments comments = new Comments(5, new ArrayList<String>());
+
   private Gson gson = new Gson();
 
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -44,25 +45,35 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
+    comments.jsonList.clear();
+
     for (Entity entity : results.asIterable()) {
       String fromDatastore = (String) entity.getProperty("title");
-      if (!output.contains(fromDatastore)) {
-        output.add(fromDatastore);
+      if (!comments.jsonList.contains(fromDatastore)) {
+        comments.jsonList.add(fromDatastore);
       }
     }
-
+    
     response.setContentType("application/JSON;");
-    response.getWriter().println(gson.toJson(output));
+    response.getWriter().println(gson.toJson(comments)); 
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("input");
     Entity add = new Entity("Task");
+    
     add.setProperty("title", comment);
     add.setProperty("timestamp", new Date());
 
     datastore.put(add);
+    
+    String limit = request.getParameter("limit");
+    if (limit.equals("")) {
+      comments.limit = 5;
+    } else {
+      comments.limit = Integer.parseInt(request.getParameter("limit"));
+    }
 
     response.sendRedirect("/index.html");
   }
