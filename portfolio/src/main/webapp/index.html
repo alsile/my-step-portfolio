@@ -38,20 +38,26 @@
       </h1>
       <br></br>
       <img src="images/eyadhome.png" alt="eyadhome" class="center" style="width:660px;">
+      <br>
+      <form action="/data" method="POST">
+        <h1>Comments</h1>
+        <br>
+        <ul id="console-output"></ul>
+        <br>
+        <label for="limit">Number of visible comments:</label>
+        <input style="width:5%;" type="number" name="limit" placeholder="5" min="0"></input>  
+        <br>      
+        <label for="input">Leave a comment:</label>      
+        <input style="width:50%;" type="string" name="input"></input>
+        <input type="submit"></input>
+      </form>
+      <form action="/delete-data" method="POST">
+        <input class="center" type="submit" value="Delete All Comments"></input>
+      </form>
       <br></br>
       <button class="center" style="width:75%" font-size="18px" onclick="toggleDarkMode()">
           Toggle Dark Mode
       </button>
-      <ul id="console-output"></ul>
-      <form action="/data" method="POST">
-        <p>Leave a comment!</p>
-        <input type="string" name="input"></input>
-        <input type="number" size="1" name="limit" placeholder="5" min="0"></input>
-        <input type="submit"></input>
-      </form>
-      <form action="/delete-data" method="POST">
-        <input type="submit" value="Delete Comments"><input>
-      </form>
     </div>
   </body>
 </html>
