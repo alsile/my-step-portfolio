@@ -82,11 +82,10 @@ function toggleDarkMode() {
 async function consoleResponse() {
   const response = await fetch('/data');
   const comments = await response.json();
-  
   consoleOutput = document.getElementById('console-output');
 
-  if (comments.limit === null) {
-    comments.limit = 5;
+  if (comments.limit !== null) {
+    document.getElementById('num-comments').placeholder = comments.limit;
   }
 
   var limit = Math.min(comments.limit, comments.jsonList.length);

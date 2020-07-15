@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.sps.data.Comments;
 import java.util.Date;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -34,11 +37,12 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns data for my portfolio*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
-  private Comments comments = new Comments(5, new ArrayList<String>());
-
+  private static final int COMMENT_LIMIT_DEFAULT = 5;
+  private static final String COMMENT_LANGUAGE_CODE_DEFAULT = "en";
+  private Comments comments = new Comments(COMMENT_LIMIT_DEFAULT,
+                                           new ArrayList<String>(),
+                                           COMMENT_LANGUAGE_CODE_DEFAULT);
   private Gson gson = new Gson();
-
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
@@ -48,31 +52,40 @@ public class DataServlet extends HttpServlet {
     comments.jsonList.clear();
 
     for (Entity entity : results.asIterable()) {
+      String toDisplay = entity.getProperty("timestamp").toString() + ": ";
       String fromDatastore = (String) entity.getProperty("title");
-      if (!comments.jsonList.contains(fromDatastore)) {
-        comments.jsonList.add(fromDatastore);
-      }
+      Translate translate = TranslateOptions.getDefaultInstance().getService();
+      Translation translation =
+        translate.translate(fromDatastore,
+                            Translate.TranslateOption.targetLanguage(comments.languageCode),
+                            Translate.TranslateOption.format("text"));
+      toDisplay += translation.getTranslatedText();
+      comments.jsonList.add(toDisplay);
     }
     
-    response.setContentType("application/JSON;");
+    response.setContentType("application/json; charset=UTF-8");
     response.getWriter().println(gson.toJson(comments)); 
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("input");
-    Entity add = new Entity("Task");
-    
-    add.setProperty("title", comment);
-    add.setProperty("timestamp", new Date());
+    if (!comment.equals("")) {
+      Entity add = new Entity("Task");
+      add.setProperty("title", comment);
+      add.setProperty("timestamp", new Date());
 
-    datastore.put(add);
+      datastore.put(add);
+    }
     
     String limit = request.getParameter("limit");
-    if (limit.equals("")) {
-      comments.limit = 5;
-    } else {
+    if (!limit.equals("")) {
       comments.limit = Integer.parseInt(request.getParameter("limit"));
+    }
+
+    String langCode =  request.getParameter("language");
+    if (!langCode.equals("")) {
+      comments.languageCode = langCode;
     }
 
     response.sendRedirect("/index.html");

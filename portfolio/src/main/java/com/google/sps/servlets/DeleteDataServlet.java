@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
+  private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     Query query = new Query("Task");
     PreparedQuery results = datastore.prepare(query);
 
