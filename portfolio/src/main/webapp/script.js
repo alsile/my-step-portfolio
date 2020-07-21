@@ -81,17 +81,12 @@ function toggleDarkMode() {
 
 async function consoleResponse() {
   const response = await fetch('/data');
-  const comments = await response.json();
+  const commentData = await response.json();
+
+  document.getElementById('num-comments').placeholder = commentData.commentLimit;
+  
   consoleOutput = document.getElementById('console-output');
-
-  if (comments.limit !== null) {
-    document.getElementById('num-comments').placeholder = comments.limit;
-  }
-
-  var limit = Math.min(comments.limit, comments.jsonList.length);
-  for (var i = 0; i < limit; i++) {
-    consoleOutput.appendChild(createListElement(comments.jsonList[i]));
-  }
+  commentData.comments.forEach(comment => consoleOutput.appendChild(createListElement(comment.message)));
 }
 
 /** Creates an <li> element containing text. */

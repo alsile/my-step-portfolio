@@ -17,7 +17,7 @@ public class DeleteDataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Task");
+    Query query = new Query("Comments");
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {

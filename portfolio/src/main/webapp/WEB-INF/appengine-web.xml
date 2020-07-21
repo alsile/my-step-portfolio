@@ -3,9 +3,6 @@
   <threadsafe>false</threadsafe>
   <sessions-enabled>true</sessions-enabled>
   <runtime>java8</runtime>
-  <env-variables>
-    <env-var name="DEFAULT_ENCODING" value="UTF-8" />
-  </env-variables>
   <static-files>
     <!-- prevent unwanted caching when accessing via the web preview server -->
     <include path="/**" expiration="0s" />
