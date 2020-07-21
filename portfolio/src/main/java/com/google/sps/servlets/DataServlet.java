@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
   private int commentLimit = 5; // default limit = 5
   private String commentLanguageCode = "en"; // default lang code is english
-  private Gson gson = new Gson();
+  private Gson gson = new Gson();   
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
