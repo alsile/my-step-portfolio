@@ -41,6 +41,28 @@ public class DataServlet extends HttpServlet {
   private String commentLanguageCode = "en"; // default lang code is english
   private Gson gson = new Gson();
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  
+  private class Comment {
+    public String message;
+    public String score;
+
+    public Comment(String message, String score) {
+      this.message = message;
+      this.score = score;
+    }
+  }
+
+  private class CommentData {
+    public List<Comment> comments;
+    public int commentLimit;
+    public String languageCode;
+
+    public CommentData(List<Comment> comments, int commentLimit, String languageCode) {
+      this.comments = comments;
+      this.commentLimit = commentLimit;
+      this.languageCode = languageCode;
+    }
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -59,7 +81,7 @@ public class DataServlet extends HttpServlet {
       toDisplay += translation.getTranslatedText();
       commentData.comments.add(new Comment(toDisplay, "")); // TODO: Add setiment score with comments
     }
-    
+
     response.setContentType("application/json; charset=UTF-8");
     response.getWriter().println(gson.toJson(commentData)); 
   }
@@ -86,28 +108,5 @@ public class DataServlet extends HttpServlet {
     }
     
     response.sendRedirect("/index.html");
-  }
-
-  private class Comment {
-  
-    public String message;
-    public String score;
-
-    public Comment(String message, String score) {
-      this.message = message;
-      this.score = score;
-    }
-  }
-
-  private class CommentData {
-    public List<Comment> comments;
-    public int commentLimit;
-    public String languageCode;
-
-    public CommentData(List<Comment> comments, int commentLimit, String languageCode) {
-      this.comments = comments;
-      this.commentLimit = commentLimit;
-      this.languageCode = languageCode;
-    }
   }
 }
