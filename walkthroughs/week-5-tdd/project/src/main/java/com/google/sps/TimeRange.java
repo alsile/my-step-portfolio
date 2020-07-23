@@ -47,7 +47,8 @@ public final class TimeRange {
   };
 
   /**
-   * A comparator for sorting ranges by their start time in ascending order.
+   * A comparator for sorting ranges by their start time or 
+   * end time if start time has tie) in ascending order.
    */
   public static final Comparator<TimeRange> ORDER_BY_START_THEN_END = new Comparator<TimeRange>() {
     @Override
