@@ -46,6 +46,22 @@ public final class TimeRange {
     }
   };
 
+  /**
+   * A comparator for sorting ranges by their start time or 
+   * end time if start time has tie) in ascending order.
+   */
+  public static final Comparator<TimeRange> ORDER_BY_START_THEN_END = new Comparator<TimeRange>() {
+    @Override
+    public int compare(TimeRange a, TimeRange b) {
+      int byStart = Long.compare(a.start, b.start);
+      if (byStart == 0) {
+          return -1 * Long.compare(a.end(), b.end());
+      } else {
+          return byStart;
+      }
+    }
+  };
+
   private final int start;
   private final int duration;
 

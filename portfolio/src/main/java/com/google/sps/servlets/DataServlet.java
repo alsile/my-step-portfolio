@@ -41,7 +41,7 @@ public class DataServlet extends HttpServlet {
   private String commentLanguageCode = "en"; // default lang code is english
   private Gson gson = new Gson();
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  
+
   private class Comment {
     public String message;
     public String score;
@@ -69,7 +69,7 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comments").addSort("timestamp", SortDirection.DESCENDING);
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentLimit));
     CommentData commentData = new CommentData(new ArrayList<Comment>(), commentLimit, commentLanguageCode);
-    
+
     for (Entity entity : results) {
       String toDisplay = entity.getProperty("timestamp").toString() + ": ";
       String fromDatastore = (String) entity.getProperty("message");
@@ -96,7 +96,7 @@ public class DataServlet extends HttpServlet {
 
       datastore.put(add);
     }
-    
+
     String limit = request.getParameter("limit");
     if (!limit.equals(null)) {
       commentLimit = Integer.parseInt(limit);
@@ -106,7 +106,7 @@ public class DataServlet extends HttpServlet {
     if (!langCode.equals("")) {
       commentLanguageCode = langCode;
     }
-    
+
     response.sendRedirect("/index.html");
   }
 }
