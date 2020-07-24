@@ -86,7 +86,7 @@ async function consoleResponse() {
   document.getElementById('num-comments').placeholder = commentData.commentLimit;
   
   consoleOutput = document.getElementById('console-output');
-  commentData.comments.forEach(comment => consoleOutput.appendChild(createListElement(comment)));
+  commentData.comments.forEach(comment => consoleOutput.appendChild(createListElement(comment.message)));
 }
 
 /** Creates an <li> element containing text. */

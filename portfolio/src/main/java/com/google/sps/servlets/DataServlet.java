@@ -21,9 +21,6 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query;
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
@@ -45,12 +42,22 @@ public class DataServlet extends HttpServlet {
   private Gson gson = new Gson();
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
+  private class Comment {
+    public String message;
+    public String score;
+
+    public Comment(String message, String score) {
+      this.message = message;
+      this.score = score;
+    }
+  }
+
   private class CommentData {
-    public List<String> comments;
+    public List<Comment> comments;
     public int commentLimit;
     public String languageCode;
 
-    public CommentData(List<String> comments, int commentLimit, String languageCode) {
+    public CommentData(List<Comment> comments, int commentLimit, String languageCode) {
       this.comments = comments;
       this.commentLimit = commentLimit;
       this.languageCode = languageCode;
@@ -59,22 +66,20 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Comments").addSort("timestamp", SortDirection.DESCENDING);
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentLimit));
-    CommentData commentData = new CommentData(new ArrayList<String>(), commentLimit, commentLanguageCode);
+    CommentData commentData = new CommentData(new ArrayList<Comment>(), commentLimit, commentLanguageCode);
 
     for (Entity entity : results) {
-      String fromDatastore = entity.getProperty("timestamp").toString() + ": " +
-                             (String) entity.getProperty("message") + ": " +
-                             (String) entity.getProperty("setiment");
+      String toDisplay = entity.getProperty("timestamp").toString() + ": ";
+      String fromDatastore = (String) entity.getProperty("message");
       Translate translate = TranslateOptions.getDefaultInstance().getService();
       Translation translation =
         translate.translate(fromDatastore,
                             Translate.TranslateOption.targetLanguage(commentLanguageCode),
                             Translate.TranslateOption.format("text"));
-      String toDisplay = translation.getTranslatedText();
- 
-      commentData.comments.add(toDisplay);
+      toDisplay += translation.getTranslatedText();
+      commentData.comments.add(new Comment(toDisplay, "")); // TODO: Add setiment score with comments
     }
 
     response.setContentType("application/json; charset=UTF-8");
@@ -85,24 +90,15 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("input");
     if (!comment.equals("")) {
-      Entity add = new Entity("Comment");
+      Entity add = new Entity("Comments");
       add.setProperty("message", comment);
       add.setProperty("timestamp", new Date());
-      
-      Document doc =
-        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
-      LanguageServiceClient languageService = LanguageServiceClient.create();
-      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-      float score = sentiment.getScore();
-      languageService.close();
-
-      add.setProperty("setiment", Float.toString(score));
 
       datastore.put(add);
     }
 
     String limit = request.getParameter("limit");
-    if (!limit.equals("")) {
+    if (!limit.equals(null)) {
       commentLimit = Integer.parseInt(limit);
     }
 
