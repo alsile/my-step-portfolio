@@ -44,6 +44,19 @@ public class DataServlet extends HttpServlet {
   private String commentLanguageCode = "en"; // default lang code is english
   private Gson gson = new Gson();
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+<<<<<<< HEAD
+=======
+  
+  private class Comment {
+    public String message;
+    public String score;
+
+    public Comment(String message, String score) {
+      this.message = message;
+      this.score = score;
+    }
+  }
+>>>>>>> parent of fe81ca2... Update master repo with most up to date edits
 
   private class CommentData {
     public List<String> comments;
@@ -61,8 +74,13 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentLimit));
+<<<<<<< HEAD
     CommentData commentData = new CommentData(new ArrayList<String>(), commentLimit, commentLanguageCode);
 
+=======
+    CommentData commentData = new CommentData(new ArrayList<Comment>(), commentLimit, commentLanguageCode);
+    
+>>>>>>> parent of fe81ca2... Update master repo with most up to date edits
     for (Entity entity : results) {
       String fromDatastore = entity.getProperty("timestamp").toString() + ": " +
                              (String) entity.getProperty("message") + ": " +
@@ -100,7 +118,7 @@ public class DataServlet extends HttpServlet {
 
       datastore.put(add);
     }
-
+    
     String limit = request.getParameter("limit");
     if (!limit.equals("")) {
       commentLimit = Integer.parseInt(limit);
@@ -110,7 +128,7 @@ public class DataServlet extends HttpServlet {
     if (!langCode.equals("")) {
       commentLanguageCode = langCode;
     }
-
+    
     response.sendRedirect("/index.html");
   }
 }
