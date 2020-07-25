@@ -44,16 +44,6 @@ public class DataServlet extends HttpServlet {
   private String commentLanguageCode = "en"; // default lang code is english
   private Gson gson = new Gson();
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  
-  private class Comment {
-    public String message;
-    public String score;
-
-    public Comment(String message, String score) {
-      this.message = message;
-      this.score = score;
-    }
-  }
 
   private class CommentData {
     public List<String> comments;
